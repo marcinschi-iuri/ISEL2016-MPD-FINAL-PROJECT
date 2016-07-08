@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>League Standing</title>
+    <style>
+        table {
+        border-collapse: collapse;
+        width: 100%;
+        }
+        th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+{{#if this}}
+<table>
+    {{#each this}}
+    <tr>
+        <td><a href="http://localhost:3000/soccerapp/teams/{{teamId}}">{{teamName}}</a></td>
+        <td><a href="http://localhost:3000/soccerapp/players/{{teamId}}">Players</a></td>
+        <td>{{position}}</td>
+        <td>{{playedGames}}</td>
+        <td>{{points}}</td>
+        <td>{{goals}}</td>
+        <td>{{wins}}</td>
+        <td>{{draws}}</td>
+        <td>{{losses}}</td>
+    </tr>
+    {{/each}}
+</table>
+{{else}}
+<h3>No users found!</h3>
+{{/if}}
+</body>
+</html>

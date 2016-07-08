@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>League</title>
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            th, td {
+                padding: 8px;
+                text-align: left;
+                border-bottom: 1px solid #ddd;
+            }
+        </style>
+    </head>
+    <body>
+        {{#if this}}
+            <table>
+                {{#each this}}
+                    <tr>
+                        <td><a href="http://localhost:3000/soccerapp/leagues/{{id}}">{{caption}}</a></td>
+                        <td>{{league}}</td>
+                        <td>{{year}}</td>
+                        <td>{{currentMatchday}}</td>
+                        <td>{{numberOfMatchDays}}</td>
+                        <td>{{numberOfTeams}}</td>
+                        <td>{{numberOfGames}}</td>
+                        <td>{{lastUpdated}}</td>
+                    </tr>
+                {{/each}}
+            </table>
+        {{else}}
+            <h3>No users found!</h3>
+        {{/if}}
+    </body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>League</title>
+    <style>
+        table {
+        border-collapse: collapse;
+        width: 100%;
+        }
+        th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+{{#if this}}
+<table>
+    {{#each this}}
+    <tr>
+        <td>{{name}}</td>
+        <td>{{position}}</td>
+        <td>{{jerseyNumber}}</td>
+        <td>{{dateOfBirth}}</td>
+        <td>{{nationality}}</td>
+        <td>{{contractUntil}}</td>
+        <td>{{marketValue}}</td>
+    </tr>
+    {{/each}}
+</table>
+{{else}}
+<h3>No users found!</h3>
+{{/if}}
+</body>
+</html>
