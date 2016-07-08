@@ -52,7 +52,13 @@ public class HtmlCacheTest {
 
     @Test
     public void testGetLeagues() throws Exception {
+        String htmlToTest = getHtmlFromResources("leagues.html");
+        cache.saveLeagues(htmlToTest).get();
 
+        CompletableFuture<String> leagues = cache.getLeagues();
+        String leaguesHtml = leagues.get();
+
+        Assert.assertTrue(htmlToTest.equals(leaguesHtml));
     }
 
     @Test
