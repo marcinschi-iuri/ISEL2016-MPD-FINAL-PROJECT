@@ -36,36 +36,19 @@ public class HtmlCacheTest {
 
     @Test
     public void testSaveLeagues() throws Exception {
-        String filename = "leaguesTest.html";
-        String html = getHtmlFromResources(filename);
 
-        CompletableFuture<Void> voidCompletableFuture = cache.saveLeagues(html);
+        String filename = "leagues.html";
+        String htmlToTest = getHtmlFromResources(filename);
+
+        CompletableFuture<Void> voidCompletableFuture = cache.saveLeagues(htmlToTest);
         voidCompletableFuture.get();
         boolean cached = checkFileInCache(DIR_LEAGUES,filename);
+
         Assert.assertTrue(cached);
+        String fileFromCache = getFileFromCache(DIR_LEAGUES, filename);
+        Assert.assertTrue(htmlToTest.equals(fileFromCache));
     }
 
-    private boolean checkFileInCache(String path, String filename){
-        String url = DIR_APP + path + "/" + filename;
-        return Files.exists(Paths.get(url));
-    }
-
-    private String getHtmlFromResources(String fileName){
-        ClassLoader classLoader = getClass().getClassLoader();
-        String pathString = classLoader.getResource(fileName).getFile();
-        Path path = Paths.get(pathString);
-
-        final StringBuffer[] buffer = {new StringBuffer()};
-
-        try {
-            if (Files.exists(path)) {
-                Files.readAllLines(path).forEach(s -> buffer[0] = buffer[0].append(s));
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return buffer.toString();
-    }
 
     @Test
     public void testGetLeagues() throws Exception {
@@ -102,6 +85,43 @@ public class HtmlCacheTest {
 
     }
 
+    private boolean checkFileInCache(String dir, String filename){
+        String url = DIR_APP + dir + filename;
+        Path path = Paths.get(url);
+        boolean exists = Files.exists(path);
+        return exists;
+    }
+    private String getFileFromCache(String dir, String filename){
+        String url = DIR_APP + dir + filename;
+        Path path = Paths.get(url);
+        final StringBuffer[] buffer = {new StringBuffer()};
+
+        try {
+            if (Files.exists(path)) {
+                Files.readAllLines(path).forEach(s -> buffer[0] = buffer[0].append(s));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer[0].toString();
+    }
+
+    private String getHtmlFromResources(String fileName){
+        ClassLoader classLoader = getClass().getClassLoader();
+        String pathString = classLoader.getResource("sampleHtml/"+fileName).getFile().substring(1);
+        Path path = Paths.get(pathString);
+
+        final StringBuffer[] buffer = {new StringBuffer()};
+
+        try {
+            if (Files.exists(path)) {
+                Files.readAllLines(path).forEach(s -> buffer[0] = buffer[0].append(s));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer[0].toString();
+    }
 
     private void loadProperties(){
         Properties prop = new Properties();
