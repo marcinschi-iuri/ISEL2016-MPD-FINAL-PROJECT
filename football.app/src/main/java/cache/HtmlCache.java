@@ -53,7 +53,7 @@ public class HtmlCache {
     }
 
     public CompletableFuture<Void> savePlayers(int teamId, String html) {
-        return saveHtml(Paths.get(DIR_APP+DIR_PLAYERS + "/playersOfTeam-"+teamId+".html"),html);
+        return saveHtml(Paths.get(DIR_APP+DIR_PLAYERS + "/players-"+teamId+".html"),html);
     }
 
 

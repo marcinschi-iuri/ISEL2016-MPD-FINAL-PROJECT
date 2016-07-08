@@ -64,31 +64,66 @@ public class HtmlCacheTest {
     @Test
     public void testSaveLeagueTable() throws Exception {
 
+        int leagueIdToTest = 123;
+        String htmlToTest = getHtmlFromResources("standings.html");
+        cache.saveLeagueTable(leagueIdToTest,htmlToTest).get();
+
+        boolean cached = checkFileInCache(DIR_LEAGUE_TABLES,"leagueTable-123.html");
+        Assert.assertTrue(cached);
+
+        String fileFromCache = getFileFromCache(DIR_LEAGUE_TABLES, "leagueTable-123.html");
+        Assert.assertTrue(htmlToTest.equals(fileFromCache));
     }
 
     @Test
     public void testGetLeagueTable() throws Exception {
-
-    }
-
-    @Test
-    public void testGetTeam() throws Exception {
-
+        String htmlToTest = getHtmlFromResources("standings.html");
+        cache.saveLeagueTable(123,htmlToTest).get();
+        String htmlFromCache = cache.getLeagueTable(123).get();
+        Assert.assertTrue(htmlToTest.equals(htmlFromCache));
     }
 
     @Test
     public void testSaveTeam() throws Exception {
 
+        int teamId = 123;
+        String htmlToTest = getHtmlFromResources("team.html");
+        cache.saveTeam(teamId,htmlToTest).get();
+
+        boolean cached = checkFileInCache(DIR_TEAMS,"team-123.html");
+        Assert.assertTrue(cached);
+
+        String fileFromCache = getFileFromCache(DIR_TEAMS, "team-123.html");
+        Assert.assertTrue(htmlToTest.equals(fileFromCache));
     }
 
     @Test
-    public void testGetPlayers() throws Exception {
-
+    public void testGetTeam() throws Exception {
+        String htmlToTest = getHtmlFromResources("team.html");
+        cache.saveTeam(123,htmlToTest).get();
+        String htmlFromCache = cache.getTeam(123).get();
+        Assert.assertTrue(htmlToTest.equals(htmlFromCache));
     }
 
     @Test
     public void testSavePlayers() throws Exception {
+        int teamId = 123;
+        String htmlToTest = getHtmlFromResources("players.html");
+        cache.savePlayers(teamId,htmlToTest).get();
 
+        boolean cached = checkFileInCache(DIR_PLAYERS,"players-123.html");
+        Assert.assertTrue(cached);
+
+        String fileFromCache = getFileFromCache(DIR_PLAYERS, "players-123.html");
+        Assert.assertTrue(htmlToTest.equals(fileFromCache));
+    }
+
+    @Test
+    public void testGetPlayers() throws Exception {
+        String htmlToTest = getHtmlFromResources("players.html");
+        cache.savePlayers(123,htmlToTest).get();
+        String htmlFromCache = cache.getPlayers(123).get();
+        Assert.assertTrue(htmlToTest.equals(htmlFromCache));
     }
 
     private boolean checkFileInCache(String dir, String filename){
