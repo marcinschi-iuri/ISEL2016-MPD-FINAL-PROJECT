@@ -15,6 +15,7 @@ public class HtmlCacheTest {
     @Before
     public void setUp() throws Exception {
         cache = new HtmlCache();
+        
     }
 
     @Test
