@@ -1,5 +1,6 @@
 package http;
 
+import cache.HtmlCache;
 import domain.League;
 import domain.Standing;
 import domain.mapping.DtoToDomainMapperImpl;
