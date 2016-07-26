@@ -84,7 +84,8 @@ public class DtoToDomainMapperImpl implements DtoToDomainMapper {
     }
 
     @Override
-    public List<Team> listOfDtoTeamsToListOfTeams(List<DtoTeam> dto, Function<String, CompletableFuture<List<DtoPlayer>>> playersByHref) {
+    public List<Team> listOfDtoTeamsToListOfTeams(List<DtoTeam> dto,
+                                            Function<String, CompletableFuture<List<DtoPlayer>>> playersByHref) {
         List<Team> listOfTeams = dto.stream().map(dtoTeam -> dtoTeamToTeam(dtoTeam, playersByHref)).collect(toList());
         return listOfTeams;
     }
@@ -93,8 +94,6 @@ public class DtoToDomainMapperImpl implements DtoToDomainMapper {
     public List<Player> listOfDtoPlayerToListOfPlayer(List<DtoPlayer> listDtoPlayers) {
         return listDtoPlayers.stream().map(dtoPlayer -> dtoPlayerToPlayer(dtoPlayer)).collect(toList());
     }
-
-
 
 
     /**************************Helper Functions******************************/

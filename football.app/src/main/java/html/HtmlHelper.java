@@ -29,67 +29,40 @@ public class HtmlHelper {
     public String mapLeagues(List<League> leagues) {
         String tmp = "";
         try {
-
             Handlebars handlebars = new Handlebars(templateLoader);
-
             Template template = handlebars.compile("leagues");
-
             tmp = template.apply(leagues);
-
         } catch (IOException e) { e.printStackTrace();  }
-
         return tmp;
     }
-
 
     public String mapLeagueStandings(List<Standing> listStandings) {
         String tmp = "";
         try {
-
             Handlebars handlebars = new Handlebars(templateLoader);
-
             Template template = handlebars.compile("standings");
-
             tmp = template.apply(listStandings);
-
         } catch (IOException e) { e.printStackTrace();  }
-
-
         return tmp;
     }
-
 
     public String mapTeam(Team team) {
         String tmp = "";
         try {
-
             Handlebars handlebars = new Handlebars(templateLoader);
-
             Template template = handlebars.compile("team");
-
             tmp = template.apply(team);
-
         } catch (IOException e) { e.printStackTrace();  }
-
-
         return tmp;
     }
 
     public String mapPlayers(List<Player> players) {
         String tmp = "";
         try {
-
             Handlebars handlebars = new Handlebars(templateLoader);
-
             Template template = handlebars.compile("players");
-
             tmp = template.apply(players);
-
         } catch (IOException e) { e.printStackTrace();  }
-
-
         return tmp;
     }
-
-
 }

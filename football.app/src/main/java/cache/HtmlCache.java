@@ -168,7 +168,6 @@ public class HtmlCache {
         }
     }
 
-
     private class HtmlFileDescriptor{
         public Path location;
         public long size;
