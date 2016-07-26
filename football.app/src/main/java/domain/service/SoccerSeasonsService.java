@@ -23,7 +23,6 @@ public class SoccerSeasonsService {
     private DtoToDomainMapper mapper;
     private SoccerWebApi soccerWebApi;
 
-    
     public SoccerSeasonsService(DtoToDomainMapper mapper, SoccerWebApi soccerWebApi) {
         this.mapper = mapper;
         this.soccerWebApi = soccerWebApi;
