@@ -20,12 +20,12 @@ public class HtmlCache {
     private Path PATH_LEAGUES, PATH_LEAGUE_TABLE, PATH_TEAM, PATH_PLAYER;
     private long CACHE_SIZE_LIMIT;
     private long CACHE_SIZE_USED;
-    private Map<Long,HtmlFileDescriptor> listOfFileNamesByDate;
+    private Map<Long,HtmlFileDescriptor> listOfFileDescriptorByDate;
 
     public HtmlCache() {
         loadProperties();
         loadCacheDirectories();
-        listOfFileNamesByDate = new HashMap<>();
+        listOfFileDescriptorByDate = new HashMap<>();
     }
 
     public CompletableFuture<Void> saveLeagues(String html) {
@@ -65,14 +65,14 @@ public class HtmlCache {
         long fileSize = html.getBytes().length;
         CACHE_SIZE_USED += fileSize;
         Path path = Paths.get(DIR_APP+dirFilename);
-        listOfFileNamesByDate.put(System.currentTimeMillis(),new HtmlFileDescriptor(path,fileSize));
+        listOfFileDescriptorByDate.put(System.currentTimeMillis(),new HtmlFileDescriptor(path,fileSize));
         return saveHtml(path,html);
     }
 
     private void ensureCacheSpace(){
         if (!(((CACHE_SIZE_LIMIT *1000) - CACHE_SIZE_USED < (CACHE_SIZE_LIMIT * 1000 * 0.2)))){
 
-            List<Map.Entry<Long, HtmlFileDescriptor>> collect = listOfFileNamesByDate.entrySet()
+            List<Map.Entry<Long, HtmlFileDescriptor>> collect = listOfFileDescriptorByDate.entrySet()
                     .stream()
                     .sorted((entry1, entry2) -> entry1.getKey() > entry2.getKey() ? 1 : 0)
                     .limit(10).collect(Collectors.toList());
@@ -80,7 +80,7 @@ public class HtmlCache {
             collect.forEach(entry -> {
                 try {
                     Files.delete(entry.getValue().location);
-                    listOfFileNamesByDate.remove(entry.getKey());
+                    listOfFileDescriptorByDate.remove(entry.getKey());
                     CACHE_SIZE_USED -= entry.getValue().size;
                 } catch (IOException e) {
                     e.printStackTrace();
