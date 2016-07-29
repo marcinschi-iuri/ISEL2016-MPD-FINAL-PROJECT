@@ -1,20 +1,14 @@
 package cache;
 
-import sun.util.calendar.BaseCalendar;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by imarcinschi on 7/4/2016.
@@ -25,7 +19,7 @@ public class HtmlCache {
     private String DIR_LEAGUES,DIR_LEAGUE_TABLES,DIR_TEAMS,DIR_PLAYERS,DIR_APP,DIR_BASE_CACHE;
     private Path PATH_LEAGUES, PATH_LEAGUE_TABLE, PATH_TEAM, PATH_PLAYER;
     private long CACHE_SIZE_LIMIT;
-    private long CACHE_SIZE_ALLOCATED;
+    private long CACHE_SIZE_USED;
     private Map<Long,HtmlFileDescriptor> listOfFileNamesByDate;
 
     public HtmlCache() {
@@ -69,14 +63,14 @@ public class HtmlCache {
     private CompletableFuture<Void> saveHtmlAnfCacheInfo(String html, String dirFilename){
         ensureCacheSpace();
         long fileSize = html.getBytes().length;
-        CACHE_SIZE_ALLOCATED += fileSize;
+        CACHE_SIZE_USED += fileSize;
         Path path = Paths.get(DIR_APP+dirFilename);
         listOfFileNamesByDate.put(System.currentTimeMillis(),new HtmlFileDescriptor(path,fileSize));
         return saveHtml(path,html);
     }
 
     private void ensureCacheSpace(){
-        if (!(((CACHE_SIZE_LIMIT *1000) - CACHE_SIZE_ALLOCATED) > (CACHE_SIZE_LIMIT *0.1))){
+        if (!(((CACHE_SIZE_LIMIT *1000) - CACHE_SIZE_USED < (CACHE_SIZE_LIMIT * 1000 * 0.2)))){
 
             List<Map.Entry<Long, HtmlFileDescriptor>> collect = listOfFileNamesByDate.entrySet()
                     .stream()
@@ -87,7 +81,7 @@ public class HtmlCache {
                 try {
                     Files.delete(entry.getValue().location);
                     listOfFileNamesByDate.remove(entry.getKey());
-                    CACHE_SIZE_ALLOCATED -= entry.getValue().size;
+                    CACHE_SIZE_USED -= entry.getValue().size;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
